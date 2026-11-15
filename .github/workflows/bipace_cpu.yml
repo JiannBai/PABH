@@ -1,0 +1,88 @@
+name: BiPACE CPU checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "gigpo/**"
+      - "agent_system/**"
+      - "examples/bipace/**"
+      - "tests/test_bigpo.py"
+      - "tests/test_cacb*.py"
+      - "tests/test_nstep.py"
+      - "tests/test_bipace_*.py"
+      - "setup.py"
+      - "pyproject.toml"
+      - "Notice.txt"
+      - ".github/workflows/bipace_cpu.yml"
+  pull_request:
+    paths:
+      - "gigpo/**"
+      - "agent_system/**"
+      - "examples/bipace/**"
+      - "tests/test_bigpo.py"
+      - "tests/test_cacb*.py"
+      - "tests/test_nstep.py"
+      - "tests/test_bipace_*.py"
+      - "setup.py"
+      - "pyproject.toml"
+      - "Notice.txt"
+      - ".github/workflows/bipace_cpu.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install CPU test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "setuptools>=77" numpy pytest wheel
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Run BiPACE unit tests
+        run: |
+          python -m pytest -q \
+            tests/test_bigpo.py \
+            tests/test_cacb.py \
+            tests/test_cacb_action_tag.py \
+            tests/test_cacb_q_style.py \
+            tests/test_nstep.py \
+            tests/test_bipace_headers.py \
+            tests/test_bipace_training_horizons.py
+      - name: Build and inspect the wheel
+        run: |
+          rm -rf build /tmp/bipace-wheel
+          python -m pip wheel --no-deps --no-build-isolation --wheel-dir /tmp/bipace-wheel .
+          python - <<'PY'
+          from pathlib import Path
+          import zipfile
+
+          wheel = next(Path("/tmp/bipace-wheel").glob("*.whl"))
+          with zipfile.ZipFile(wheel) as archive:
+              names = set(archive.namelist())
+          required = {
+              "gigpo/core_bigpo.py",
+              "gigpo/core_cacb.py",
+              "agent_system/multi_turn_rollout/rollout_loop.py",
+              "agent_system/environments/env_package/textcraft/envs.py",
+              "agent_system/environments/env_package/textcraft/textcraft_goal_index.json",
+              "verl/trainer/config/ppo_trainer.yaml",
+          }
+          missing = sorted(required - names)
+          assert not missing, f"wheel missing runtime files: {missing}"
+          assert any(name.endswith("licenses/Notice.txt") for name in names)
+          PY
+      - name: Validate BiPACE shell recipes
+        run: find examples/bipace -type f -name '*.sh' -print0 | xargs -0 -n1 bash -n

@@ -1,0 +1,233 @@
+% CVPR'27 submission — Learning Progress-Aware State Metrics (restructured draft)
+% Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\usepackage[review]{cvpr}
+\input{preamble}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\newcommand{\method}{PABH\xspace}
+\newcommand{\gtext}{\ensuremath{g_{\mathrm{text}}}}
+\newcommand{\gset}{\ensuremath{g_{\mathrm{set}}}}
+\newcommand{\Aepisode}{A^{\mathrm{ep}}}
+\newcommand{\Astep}{A^{\mathrm{step}}}
+\let\todo\undefined
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\definecolor{cvprblue}{rgb}{0.21,0.49,0.74}
+\usepackage[pagebackref,breaklinks,colorlinks,allcolors=cvprblue]{hyperref}
+
+\def\confName{CVPR}
+\def\confYear{2027}
+
+\begin{document}
+\title{Learning Progress-Aware State Metrics for Step-Level Credit\\Assignment in LLM Agents}
+\author{Anonymous CVPR submission}
+\maketitle
+
+\begin{abstract}
+Group-based reinforcement learning (RL) assigns credit to large language model (LLM) agent actions by comparing them with peer actions sampled under the same task. At the step level, this comparison is meaningful only when grouped states are comparable for credit assignment. Group-in-Group Policy Optimization (GiGPO) uses exact observation matches, whereas Bisimulation-Guided Policy Optimization with Action Counterfactual Estimation (BiPACE) clusters raw actor hidden states; neither explicitly addresses progress-confounded groups. We propose learning \emph{progress-aware state metrics} and instantiate them with \emph{progress-aware bisimulation heads} (\method). \method augments the anchor state with task-progress events and trains a lightweight linear projection with a Matching under Independent Couplings (MICo)-style objective anchored by rule-based process rewards. The learned embedding replaces raw hidden states for clustering, while counterfactual estimation, the policy prompt, extrinsic rewards, and the policy-optimization objective remain unchanged. Under our reproduction protocol, \method achieves the best overall results among the compared methods, reaching 95.1\% and 96.9\% success on ALFWorld and 74.2\% and 76.8\% success on WebShop at 1.5B and 7B, respectively. Component-attribution runs show that progress text alone is insufficient, while the trained head provides the main improvement. A retrospective analysis further shows that progress contamination can grow despite stable singleton coverage, motivating purity as a complementary diagnostic. These results support \method as a targeted mechanism for improving step-level credit where observation-based grouping confounds task progress.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+Long-horizon LLM agents must assign sparse terminal outcomes to intermediate decisions. Group-based policy optimization offers a critic-free alternative to learned value functions: GRPO and RLOO estimate relative advantages across sampled outputs~\cite{grpo,rloo,deepseek_r1}, and PPO provides the underlying policy-update machinery~\cite{ppo,sutton,gae}. Recent agent systems extend these ideas to multi-turn interactions~\cite{ragen,loop,archer}. GiGPO further constructs step-level groups by matching repeated observations across trajectories, adding local credit to the episode-level signal~\cite{gigpo}. BiPACE relaxes exact matching with actor-hidden clustering (BiGPO) and introduces action-conditioned counterfactual estimation (PACE)~\cite{bipace}.
+
+These estimators share an implicit assumption: \emph{states placed in the same group must be comparable for credit assignment}. Exact observation identity can be too restrictive, but approximate grouping is not automatically better. The anchor observation often describes only the latest action feedback, so two states can look alike despite different completed subgoals and continuation values. Moreover, the actor hidden state is optimized for next-token prediction, not for value equivalence. Increasing group coverage can therefore reduce variance while introducing a more damaging bias: task progress is mistaken for action quality.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/fig_method_comparison.pdf}
+\caption{Four ways to construct comparison units from the same rollout budget. GRPO compares complete episodes. GiGPO introduces step groups through exact observation matching, which can be sparse and progress-confused. BiPACE increases coverage using raw actor-hidden geometry, but its metric is not trained for value equivalence. \method augments the state with task progress and learns a bisimulation metric, producing cleaner peers for the inherited PACE estimator.}
+\label{fig:comparison}
+\end{figure*}
+
+Figure~\ref{fig:comparison} contrasts these design choices. Our goal is not to maximize cluster size, but to form peer groups whose members are comparable in decision-relevant progress. We propose learning \emph{progress-aware state metrics} for step-level credit assignment and instantiate the metric with \emph{progress-aware bisimulation heads} (\method), comprising (i) a progress-event-augmented anchor state $s_t=(g_t,o_t)$, where $g_t$ summarizes task-relevant progress events; (ii) a linear projection trained online with a process-reward-anchored MICo objective; and (iii) the existing BiGPO--PACE consumption pipeline. The head reuses on-policy rollouts and adds only 0.39M/0.92M trainable parameters at 1.5B/7B. The policy prompt, extrinsic reward, and PPO objective are unchanged.
+
+We evaluate the complete estimator ladder on ALFWorld and WebShop, using published GRPO references where available and same-pipeline reproductions for the principal step-level comparisons.
+
+\begin{itemize}
+\item \textbf{Progress-aware metric learning.} We combine explicit progress-event augmentation with a PRM-anchored bisimulation head, directly targeting value-equivalent state grouping without additional rollouts or changes to PPO rewards.
+\item \textbf{Controlled evaluation across two environments.} We compare GiGPO, BiPACE-Q, and \method under a unified reproduction protocol, with published GRPO results as contextual references on ALFWorld and WebShop, reporting both improvements and regimes with limited additional benefit.
+\item \textbf{Attribution and mechanism.} Mid-arm ablations separate progress-text injection from trained metric learning, while a retrospective analysis motivates group purity as a complementary diagnostic beyond singleton coverage.
+\end{itemize}
+
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Agentic reinforcement learning.}
+Agentic RL extends policy optimization from single-turn responses to multi-turn environment interaction. ArCHer uses a hierarchical actor--critic decomposition for multi-turn agents~\cite{archer}; LoOP and RAGEN study optimization and training stability in long-horizon interactive settings~\cite{loop,ragen}; Search-R1 demonstrates outcome-based RL for multi-turn search agents~\cite{searchr1}. These works establish scalable agent-training pipelines, but terminal trajectory advantages alone cannot distinguish helpful from detrimental intermediate actions.
+
+\paragraph{Group-based and step-level credit.}
+PPO established clipped policy updates~\cite{ppo}, while GRPO and RLOO replace a learned critic with group-relative baselines~\cite{grpo,rloo}. GiGPO adds micro advantages by grouping repeated anchor states across trajectories~\cite{gigpo}. HGPO addresses inconsistent historical contexts with hierarchical grouping~\cite{hgpo}, while BiPACE replaces exact keys with actor-hidden clusters and action-conditioned PACE~\cite{bipace}. SALT instead derives step advantages from trajectory-graph structure~\cite{salt}. Our contribution is complementary to downstream credit estimators: we learn the state-equivalence metric that determines which steps should be compared.
+
+\paragraph{Bisimulation and action-dependent credit.}
+Bisimulation formalizes states with equivalent reward and transition behavior~\cite{givan,ferns}. DBC and MICo learn representations reflecting such behavioral distances~\cite{dbc,mico}. Our head adapts MICo-style pair fitting to a fixed late-layer LLM representation and replaces sparse terminal rewards with dense process anchors. We retain PACE as the downstream action-conditioned estimator and change only its input state metric.
+
+\paragraph{Process supervision.}
+PRMs and automatically constructed step supervision provide dense guidance in reasoning and agents~\cite{prm,mathshepherd,pqm,edu_prm,istar,turn_reward}. Instead of adding process rewards to the policy return, \method uses a deterministic progress signal only to train the state metric, leaving the PPO reward stream unchanged.
+
+\section{Background: Group-Based Step Credit}
+\label{sec:background}
+
+For a prompt group $p$, GRPO samples $G$ trajectories $\{\tau^{(g)}\}_{g=1}^{G}$ under the same task prompt and normalizes their terminal returns to obtain an episode advantage $\Aepisode$. GiGPO adds a step term by grouping records with identical observations:
+\begin{equation}
+\Astep(i)=\frac{R_t^{(i)}-\mu_{C(i)}}{\sigma_{C(i)}+\delta},\qquad
+A(i)=\Aepisode(i)+\omega\Astep(i),
+\end{equation}
+where $i$ indexes a step record at time $t$, $R_t^{(i)}$ is its discounted extrinsic return-to-go, and $C(i)$ is the anchor group containing $i$. The scalars $\mu_{C(i)}$ and $\sigma_{C(i)}$ are the group mean and standard deviation of $R_t$, $\delta>0$ prevents division by zero, and $\omega$ controls the step-advantage weight. Singleton groups provide no step-level signal.
+
+BiPACE replaces the exact key with greedy cosine clustering over normalized actor hidden states $h_i$. Within each cluster, PACE estimates
+\begin{equation}
+\hat Q(s,a_i)=\operatorname{mean}_{j\in C^{=}(i)}R_t^{(j)},\quad
+\hat V(s)=\operatorname{mean}_{j\in C(i)}R_t^{(j)},
+\end{equation}
+\begin{equation}
+\Astep(i)=\hat Q(s,a_i)-\hat V(s),
+\end{equation}
+where $a_i$ is the action at record $i$, $C^{=}(i)=\{j\in C(i):a_j=a_i\}$ contains its same-action peers, $\hat Q(s,a_i)$ estimates the value of taking $a_i$ at the shared state $s$, and $\hat V(s)$ is the all-action cluster baseline. The estimator therefore depends on two choices: which states are comparable, and which action-conditioned returns are compared. \method changes only the first.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{Overview and a concrete failure case}
+\method instantiates the proposed state metric with a lightweight linear bisimulation head. Figure~\ref{fig:pabh_method} illustrates the complete pipeline. At decision step $t$, $s_t$ denotes the environment state, $o_t$ the latest observation available to the agent, and $a_t$ the action sampled from the policy. A rollout record stores these quantities together with the subsequent observation and discounted return. We use $i$ and $j$ to index two records in the same on-policy prompt group. The actor is parameterized by $\theta$, and $\operatorname{Norm}(\cdot)$ denotes L2 normalization throughout. Consider two steps that both produce the feedback ``pick up kettle 1.'' Consider two steps that both produce the feedback ``pick up kettle 1.'' In one, the agent has only completed $\{\mathrm{take}(k_1)\}$; in the other, it has also completed $\{\mathrm{put}(k_2)\}$. The text feedback is identical, but the remaining task and continuation value differ. A raw observation or hidden-state group can mix these steps and attribute the later trajectory's advantage to the wrong action.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figs/fig_pabh_method.pdf}
+\caption{\method overview with an illustrative ALFWorld-style example. Left: progress tracking distinguishes identical feedback by completed subgoals and constructs an anchor-only $[g_{\mathrm{text}};o]$ representation. Middle: a linear head learns $z=\mathrm{Norm}(Wh)$ by fitting current embedding distances to PRM differences plus discounted successor distances using an EMA target. Right: BiGPO forms clusters in $z$-space and PACE compares same-action and all-peer extrinsic returns. Numeric returns are illustrative: $\hat Q=0.80$, $\hat V=0.65$, and $\Astep=+0.15$. PRM shapes only the metric; PPO and its reward stream remain unchanged.}
+\label{fig:pabh_method}
+\end{figure*}
+
+\subsection{Progress-grounded anchor states}
+Let $g_t=g(s_t)$ denote a deterministic, environment-specific summary of task-relevant progress events available at state $s_t$. We maintain $g_t$ as an ordered event set $g_{\mathrm{set}}$ for contamination analysis and serialize it as $g_{\mathrm{text}}$ for representation learning. The anchor state is redefined as $(g_t,o_t)$, with progress text prepended only to the anchor observation:
+\begin{equation}
+\tilde o_t=[g_{\mathrm{text}};o_t],\qquad
+h_t=\operatorname{Norm}\bigl(f_\theta(\tilde o_t)\bigr).
+\end{equation}
+Here $\tilde o_t$ is the progress-augmented anchor input, $f_\theta(\tilde o_t)\in\mathbb R^H$ is the actor's late-layer hidden vector at the last non-padding token, $H$ is its width, and $h_t$ is the normalized representation supplied to the metric head. The hidden vector is recomputed at advantage-computation time without an actor gradient. The policy prompt used to generate actions does not receive $g_{\mathrm{text}}$; progress injection affects the state metric, not the agent's input policy.
+
+The progress representation is environment-specific but deterministic. ALFWorld uses anchored templates for six subgoal-event types and deliberately excludes navigation and container opening to avoid splitting states solely because of location changes. WebShop records search, item-view, and purchase events. Full serialization rules and anchor examples are given in Appendix~\ref{app:progress}.
+
+\subsection{PRM-anchored bisimulation head}
+A single bias-free linear projection $W\in\mathbb R^{256\times H}$ produces
+\begin{equation}
+z_t=\operatorname{Norm}(Wh_t).
+\end{equation}
+The projection acts as a low-rank Mahalanobis metric over the actor's nonlinear representation: $\|z_i-z_j\|_2^2=(h_i-h_j)^\top W^\top W(h_i-h_j)$ for normalized inputs. We use orthogonal initialization and L2-normalized outputs. Only $W$ receives the metric gradient; the actor is updated solely by the policy objective. An EMA target head $\bar W$, with the same shape as $W$, encodes successor states as $\bar z_t^{+}=\operatorname{Norm}(\bar Wh_{t+1})$.
+
+For an on-policy pair $(i,j)$ sampled within a prompt group, let $r_i^p\in\mathbb R$ be a scalar process reward deterministically derived from the same progress events, and let $\bar z_i^{+}$ be the target-head embedding of $i$'s next anchor state. The discount $\gamma\in[0,1)$ balances immediate progress discrepancy against successor discrepancy. Both current states and successor states use the same progress augmentation. We fit
+\begin{equation}
+\mathcal L_{\mathrm{head}}=
+\left(\|z_i-z_j\|_2-
+\left[|r_i^p-r_j^p|+\gamma\|\bar z_i^{+}-\bar z_j^{+}\|_2\right]\right)^2.
+\label{eq:mico}
+\end{equation}
+The target is detached, and $\bar W\leftarrow\tau W+(1-\tau)\bar W$ is applied after every head-gradient update, where $\tau\in(0,1)$ is the EMA update rate. Equation~\ref{eq:mico} encourages distances to track immediate progress differences and discounted behavioral divergence, rather than token-level surface similarity. Intuitively, two records become close when they have similar process rewards and their successor representations are close under the target metric; records with different completed subgoals remain separated even if their latest observations match. We resample 256 pairs per round, discard same-trajectory pairs closer than three steps to reduce trivial temporal correlations, and perform 30 head updates per PPO step.
+
+The process reward is \emph{not} added to the environment return. It only supervises Eq.~\ref{eq:mico}; PACE and PPO continue to use extrinsic discounted returns.
+
+\subsection{Clustering and action-conditioned consumption}
+The learned $z_t$ replaces raw $h_t$ in BiGPO's prompt-group-local greedy cosine clustering. For a record embedding $z_i$ and cluster centroid $c$, $d_{\cos}(z_i,c)=1-z_i^\top c/\|z_i\|_2\|c\|_2$ is the cosine distance and $\varepsilon>0$ is the merge threshold. Records are processed within each prompt group: a record joins the nearest existing centroid when $d_{\cos}\leq\varepsilon$, otherwise it starts a new cluster. PACE then partitions each cluster by action identity, estimates $\hat Q$ from same-action peers and $\hat V$ from all peers, and computes $\Astep=\hat Q-\hat V$. The final advantage remains $A=\Aepisode+\omega\Astep$, where $\Aepisode$ supplies trajectory-level credit and $\Astep$ supplies local action credit.
+
+Algorithm~\ref{alg:pabh_full} summarizes the complete pipeline. The projection used for the current advantage computation is produced before that step's head updates; updated weights affect subsequent steps. Actor parameters receive only the PPO gradient, while the head receives only the MICo gradient. Thus, our contribution is a drop-in state metric, not a second critic, a new rollout scheme, or a modified PPO surrogate.
+
+\begin{algorithm}[H]
+\caption{PABH training and advantage computation}
+\label{alg:pabh_full}
+\begin{algorithmic}[1]
+\Require rollouts grouped by prompt, extrinsic rewards, progress trackers
+\For{each PPO step}
+  \State extract $g_t$, serialize $g_{\mathrm{text}}$, and form $\tilde o_t=[g_{\mathrm{text}};o_t]$ only for the anchor channel
+  \State recompute $h_t=\mathrm{Norm}(f_\theta(\tilde o_t))$ at the last non-pad token without actor gradient
+  \State $z_t\leftarrow\mathrm{Norm}(Wh_t)$ using the current head
+  \For{$k=1$ to $10$}
+    \State sample 256 on-policy pairs with valid next states; reject same-trajectory pairs with $|t_i-t_j|<3$
+    \For{$u=1$ to $3$}
+      \State update $W$ with $\mathcal L_{\mathrm{head}}$ from Eq.~\ref{eq:mico}
+      \State $\bar W\leftarrow\tau W+(1-\tau)\bar W$
+    \EndFor
+  \EndFor
+  \State cluster $\{z_t\}$ within each prompt group using greedy cosine clustering
+  \State compute PACE $\Astep$ from extrinsic returns and $A=\Aepisode+\omega\Astep$
+  \State update the actor with the unchanged PPO objective
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\section{Experiments}
+\label{sec:exp}
+
+\subsection{Setup and evaluation protocol}
+We evaluate ALFWorld~\cite{alfworld} and WebShop~\cite{webshop} with Qwen2.5-1.5B/7B-Instruct~\cite{qwen}. Our reproduced GiGPO, BiPACE-Q, and \method runs share the same rollout group size, environment configuration, training budget, and PPO implementation. BiPACE-Q and \method use the same official PACE convention within each environment and model scale (Appendix Table~\ref{tab:pace_config}).
+
+\method uses a 256-dimensional head, learning rate $10^{-4}$, EMA rate $\tau=0.005$, and $\gamma=0.95$. The late layer is $-12$ for 1.5B and $-8$ for 7B; $\varepsilon$ follows the corresponding BiPACE configuration except on WebShop 1.5B, where BiPACE-Q uses 0.06 and \method uses 0.04, selected in an initial single-seed sweep before the remaining matched runs were completed. Training uses 200 PPO steps for 1.5B and 150 for 7B. Validation reports \emph{peak success within the stated budget}, averaged over the seeds shown in each cell.
+
+All GiGPO, BiPACE-Q, and \method values in our experimental tables come from the same-pipeline reproductions. Prompt-only and ALFWorld/WebShop GRPO rows are published references used for context, not for controlled \method deltas. This preserves a direct check that training is beneficial while keeping comparisons among our principal RL methods consistent in code, hardware, prompts, and evaluation. Full configurations and per-seed ledgers appear in Appendices~\ref{app:hyperparams} and~\ref{app:per_seed}.
+
+\input{tables}
+
+\subsection{Main results}
+\label{sec:main}
+Table~\ref{tab:main} compares the learned metric with published references and same-pipeline baselines. Prompt-only models provide a much lower reference point than trained agents in these settings, confirming that the observed gains cannot be attributed to prompting alone; published ALFWorld/WebShop GRPO rows provide an additional reference, while methodological comparisons involving \method use our same-pipeline GiGPO and BiPACE-Q results. On ALFWorld, where repeated feedback can hide different subgoal completion, \method obtains 95.1\% at 1.5B and 96.9\% at 7B, exceeding same-pipeline BiPACE-Q by 2.4 and 2.9 points, respectively. The reproduced GiGPO--BiPACE-Q--\method sequence further shows that approximate grouping, action-conditioned estimation, and metric training each contribute to the final estimator.
+
+On WebShop, \method improves Success over BiPACE-Q by 4.4 points at 1.5B and 3.7 points at 7B. The dense Score metric also rises by 3.4 points at 1.5B (85.2 to 88.6) and by 1.1 points at 7B (87.0 to 88.1). With $\varepsilon=0.04$ and the same matched three-seed pool used by the other 1.5B methods, \method exceeds GiGPO in both Score (88.6 versus 86.3) and Success (74.2 versus 72.4). With $\varepsilon=0.05$, 7B \method likewise exceeds GiGPO in Score (88.1 versus 86.2) and Success (76.8 versus 75.5). WebShop therefore provides cross-scale evidence for the learned metric, although we retain the explicit $\varepsilon$ and initial single-seed selection protocol rather than treating these gains as universal across environments.
+
+\subsection{Attribution: progress text versus trained metric}
+\label{sec:attrib}
+\begin{table}[htbp]
+\centering
+\caption{Progress-event and trained-head attribution on ALFWorld. ``$g_{\mathrm{text}}$ only'' uses the unprojected hidden state of the progress-augmented anchor without metric training. Parentheses show seed counts; these are component-attribution results rather than paired significance tests.}
+\label{tab:attrib}
+\small
+\setlength{\tabcolsep}{5.0pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Variant & 1.5B & 7B \\
+\midrule
+Raw (BiPACE-Q) & 92.7$\pm$3.0 (3) & 94.0$\pm$1.6 (3) \\
+$g_{\mathrm{text}}$ only & 91.7$\pm$1.2 (3) & 95.1$\pm$1.2 (3) \\
+$g_{\mathrm{text}}$ + \textbf{trained head} & \textbf{95.1$\pm$1.8 (3)} & \textbf{96.9$\pm$1.6 (3)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+Table~\ref{tab:attrib} isolates the two additions on ALFWorld. At 1.5B, the completed mid-arm run reaches 91.7\%, below raw BiPACE-Q at 92.7\%, whereas the full method reaches 95.1\%. At 7B, the gains decompose more evenly: 94.0\% with raw anchors, 95.1\% with progress text only, and 96.9\% with the trained head.
+
+The mid-arm and full arms have different completed seed counts, so we interpret this as component attribution rather than a paired statistical test. The evidence suggests that $g_{\mathrm{text}}$ is an enabler that exposes progress to the representation, while the trained metric is the principal source of improvement at 1.5B. Simply adding text is insufficient in these experiments; learning how to organize that information is important.
+
+\subsection{Mechanism: purity rather than coverage}
+\label{sec:purity}
+We retrospectively reconstruct exact-observation groups from 15 completed ALFWorld runs spanning raw-anchor, progress-text, and head variants, and measure singleton coverage together with cluster- and pair-level progress contamination. As shown in Fig.~\ref{fig:purity}, singleton coverage stays flat near $1.5\%$ over training, while pair-level contamination grows. Stable coverage can therefore conceal increasingly progress-inconsistent comparisons.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figs/fig_purity.pdf}
+\caption{Retrospective progress-contamination analysis on 15 completed ALFWorld runs spanning raw-anchor, progress-text, and head variants. Singleton exact-match coverage (dashed) stays flat near $1.5\%$ over training, while pair-level progress contamination (solid) grows. These are descriptive diagnostics of exact-observation grouping across training variants, not direct evaluations of learned-$z$ clusters or causal purity--success estimates.}
+\label{fig:purity}
+\end{figure}
+
+Coverage and contamination capture distinct failure modes. Singleton records fall back to episode credit, whereas contaminated groups can bias action credit; neither statistic is a universal stand-alone quality metric. The appropriate goal is to improve peer comparability rather than merely reduce singletons. Metric definitions are provided in Appendix~\ref{app:purity}. This retrospective analysis motivates purity as a complementary diagnostic, but does not directly compare raw-$h$ and learned-$z$ clusters or establish a purity--success relationship.
+
+\subsection{Efficiency and limitations}
+\method adds 0.39M/0.92M trainable parameters at 1.5B/7B and no extra rollouts or learned critic. The head consumes the same rollout batch and accounts for less than 2\% of training-step time in our measurements. The linear head is a simplicity and efficiency choice rather than a demonstrated optimum over nonlinear alternatives. Nevertheless, progress extraction requires environment-specific rules or dense scores, limiting direct application to open-ended feedback without reliable progress detectors. The current trackers are heuristic event summaries rather than complete state reconstructions, so richer goal-conditioned serialization may further improve the metric. Several estimator cells still require additional seeds, and peak validation can be sensitive to isolated spikes. Finally, our current comparison focuses on the GRPO--GiGPO--BiPACE ladder; graph-based credit consumers such as G2PO are complementary directions rather than same-pipeline baselines in this draft.
+
+\section{Conclusion}
+We presented a framework for learning progress-aware state metrics, instantiated by \method, a lightweight bisimulation head for step-level credit assignment in LLM agents. By combining explicit progress-event summaries with PRM-anchored metric learning, \method improves the state equivalence used by BiGPO and PACE while preserving the rollout budget, PPO reward, and policy objective. Same-pipeline results across ALFWorld and WebShop show the benefits of trained progress-aware grouping across both benchmarks. The central lesson is that step-level credit depends not merely on how many states are grouped, but on whether those states should be compared at all.
+
+{\small
+\bibliographystyle{ieeenat_fullname}
+\bibliography{refs}
+}
+
+\appendix
+\input{appendix}
+
+\end{document}

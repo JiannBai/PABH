@@ -1,0 +1,1590 @@
+[
+  {
+    "goal_item": "minecraft:cyan_banner",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:gray_banner",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:hopper_minecart",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:lectern",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:lime_banner",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:lodestone",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:polished_andesite_slab",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:polished_andesite_stairs",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:polished_granite_slab",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:polished_granite_stairs",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:purple_banner",
+    "depth": 4
+  },
+  {
+    "goal_item": "minecraft:activator_rail",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:andesite_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:andesite_stairs",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:andesite_wall",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:beetroot_soup",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:black_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:black_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:black_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:blue_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:blue_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:blue_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:bookshelf",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:brown_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:brown_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:brown_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:carrot_on_a_stick",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:chest_minecart",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:chiseled_nether_bricks",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:chiseled_polished_blackstone",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:chiseled_red_sandstone",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:chiseled_sandstone",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:chiseled_stone_bricks",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:comparator",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:crossbow",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cut_red_sandstone_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cut_sandstone_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_concrete_powder",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_stained_glass",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_stained_glass_pane",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_terracotta",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:cyan_wool",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:dark_prismarine_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:dark_prismarine_stairs",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:dispenser",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:enchanting_table",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:end_crystal",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:ender_chest",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:granite_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:granite_stairs",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:granite_wall",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_concrete_powder",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_stained_glass",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_stained_glass_pane",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_terracotta",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:gray_wool",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:green_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:green_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:green_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:hopper",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:jack_o_lantern",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lantern",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:light_blue_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:light_blue_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:light_blue_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:light_gray_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:light_gray_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:light_gray_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_concrete_powder",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_stained_glass",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_stained_glass_pane",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_terracotta",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:lime_wool",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:magenta_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:magenta_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:magenta_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:magma_block",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:mossy_stone_brick_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:mossy_stone_brick_stairs",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:mossy_stone_brick_wall",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:mushroom_stew",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:orange_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:orange_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:orange_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:painting",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:pink_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:pink_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:pink_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_andesite",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_brick_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_brick_stairs",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_brick_wall",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_diorite_slab",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_diorite_stairs",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:polished_granite",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_concrete_powder",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_stained_glass",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_stained_glass_pane",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_terracotta",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:purple_wool",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:rabbit_stew",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:red_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:red_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:red_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:repeater",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:shulker_box",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:soul_lantern",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:spectral_arrow",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:sticky_piston",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:trapped_chest",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:warped_fungus_on_a_stick",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:writable_book",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:yellow_banner",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:yellow_bed",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:yellow_carpet",
+    "depth": 3
+  },
+  {
+    "goal_item": "minecraft:acacia_boat",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:acacia_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:andesite",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:anvil",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:armor_stand",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:arrow",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:barrel",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:beehive",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_boat",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:birch_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:black_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:black_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:black_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:black_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:black_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blast_furnace",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blue_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blue_ice",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blue_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blue_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blue_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:blue_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:bone_block",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:book",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:bow",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:bowl",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brick_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brick_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brick_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brown_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brown_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brown_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brown_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:brown_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:cake",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:campfire",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:cartography_table",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:chain",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:chest",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crafting_table",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:creeper_banner_pattern",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:crimson_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:cut_red_sandstone",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:cut_sandstone",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:cyan_dye",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_boat",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_oak_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:dark_prismarine",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:detector_rail",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diamond_axe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diamond_hoe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diamond_pickaxe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diamond_shovel",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diamond_sword",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diorite_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diorite_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:diorite_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:end_stone_brick_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:end_stone_brick_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:end_stone_brick_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:ender_eye",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:fermented_spider_eye",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:fire_charge",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:fishing_rod",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:fletching_table",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:flower_banner_pattern",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:furnace_minecart",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:glistering_melon_slice",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:golden_axe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:golden_carrot",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:golden_hoe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:golden_pickaxe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:golden_shovel",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:golden_sword",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:granite",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:gray_dye",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:green_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:green_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:grindstone",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:honey_bottle",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:iron_axe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:iron_hoe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:iron_pickaxe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:iron_shovel",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:iron_sword",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:item_frame",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jukebox",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_boat",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:jungle_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:ladder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:leather_boots",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:leather_chestplate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:leather_helmet",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:leather_horse_armor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:leather_leggings",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:lever",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_blue_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_blue_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_blue_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_blue_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_blue_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_gray_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_gray_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_gray_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_gray_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:light_gray_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:lime_dye",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:loom",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:magenta_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:magenta_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:magenta_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:magenta_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:magenta_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:magma_cream",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:map",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:mojang_banner_pattern",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:mossy_cobblestone_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:mossy_cobblestone_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:mossy_cobblestone_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:mossy_stone_bricks",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:nether_brick_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:nether_brick_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:nether_brick_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:nether_brick_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:netherite_block",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:note_block",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_boat",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:oak_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:orange_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:orange_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:orange_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:orange_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:orange_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:pink_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:pink_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:pink_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:pink_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:pink_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:piston",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_bricks",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_blackstone_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:polished_diorite",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:powered_rail",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:prismarine_brick_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:prismarine_brick_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:prismarine_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:prismarine_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:prismarine_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:pumpkin_pie",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:purple_dye",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:rail",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_nether_brick_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_nether_brick_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_nether_brick_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_sandstone_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_sandstone_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_sandstone_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:red_wool",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:redstone_lamp",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:redstone_torch",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:respawn_anchor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:sandstone_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:sandstone_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:sandstone_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:shield",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:skull_banner_pattern",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:smithing_table",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:smoker",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:soul_campfire",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:soul_torch",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_boat",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:spruce_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_axe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_brick_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_brick_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_brick_wall",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_hoe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_pickaxe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_shovel",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:stone_sword",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:target",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:tnt_minecart",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:torch",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:tripwire_hook",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_button",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_door",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_fence",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_fence_gate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_pressure_plate",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_sign",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_slab",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_stairs",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:warped_trapdoor",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_banner",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_bed",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_carpet",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:white_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:wooden_axe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:wooden_hoe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:wooden_pickaxe",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:wooden_shovel",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:wooden_sword",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:yellow_concrete_powder",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:yellow_stained_glass",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:yellow_stained_glass_pane",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:yellow_terracotta",
+    "depth": 2
+  },
+  {
+    "goal_item": "minecraft:yellow_wool",
+    "depth": 2
+  }
+]

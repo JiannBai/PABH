@@ -1,0 +1,127 @@
+{
+  "BiPACE-Q 1.5B seed0": {
+    "log": "bipace_1.5b_webshop_official_baseline_seed0_node1613826_20260918_163550.log",
+    "score": 0.84,
+    "success": 0.703
+  },
+  "BiPACE-Q 1.5B seed10": {
+    "log": "bipace_1.5b_webshop_official_baseline_seed10_node1613826_20260920_132025.log",
+    "score": 0.847,
+    "success": 0.68
+  },
+  "BiPACE-Q 1.5B seed2": {
+    "log": "bipace_1.5b_webshop_official_baseline_seed2_node1613826_20260919_142259.log",
+    "score": 0.868,
+    "success": 0.711
+  },
+  "BiPACE-Q 1.5B seed5": {
+    "log": "bipace_1.5b_webshop_official_baseline_seed5_node1613826_20260924_073130.log",
+    "score": 0.83,
+    "success": 0.695
+  },
+  "BiPACE-Q 7B seed0": {
+    "log": "bipace_7b_webshop_baseline_seed0_node1613826_20260921_025833.log",
+    "score": 0.857,
+    "success": 0.727
+  },
+  "BiPACE-Q 7B seed1": {
+    "log": "bipace_7b_webshop_baseline_seed1_node1613826_20260924_193209.log",
+    "score": 0.878,
+    "success": 0.738
+  },
+  "BiPACE-Q 7B seed2": {
+    "log": "bipace_7b_webshop_baseline_seed2_node1613826_20260926_052216.log",
+    "score": 0.876,
+    "success": 0.727
+  },
+  "GRPO 1.5B seed0": {
+    "log": "grpo_1.5b_webshop_official_seed0_node1613826_20261013_025011.log",
+    "score": 0.787,
+    "success": 0.656
+  },
+  "GRPO 1.5B seed1": {
+    "log": "grpo_1.5b_webshop_official_seed1_node1613826_20261014_000043.log",
+    "score": 0.815,
+    "success": 0.613
+  },
+  "GRPO 1.5B seed2": {
+    "log": "grpo_1.5b_webshop_official_seed2_node1613826_20261014_214039.log",
+    "score": 0.767,
+    "success": 0.594
+  },
+  "GiGPO 1.5B seed0": {
+    "log": "gigpo_1.5b_webshop_official_seed0_node1613826_20261009_102926.log",
+    "score": 0.849,
+    "success": 0.699
+  },
+  "GiGPO 1.5B seed2": {
+    "log": "gigpo_1.5b_webshop_official_seed2_node1613826_20261009_103122.log",
+    "score": 0.873,
+    "success": 0.75
+  },
+  "GiGPO 7B seed0": {
+    "log": "bipace_7b_webshop_gigpo_seed0_node1613826_20261027_101027.log",
+    "score": 0.859,
+    "success": 0.75
+  },
+  "GiGPO 7B seed1": {
+    "log": "bipace_7b_webshop_gigpo_seed1_node1613826_20261027_164250.log",
+    "score": 0.852,
+    "success": 0.738
+  },
+  "GiGPO 7B seed2": {
+    "log": "bipace_7b_webshop_gigpo_seed2_node1613826_20261028_172403.log",
+    "score": 0.793,
+    "success": 0.664
+  },
+  "PABH 1.5B seed0": {
+    "log": "bipace_1.5b_webshop_bisimhead_eps0.04_seed0_node1613826_20261102_084915.log",
+    "score": 0.882,
+    "success": 0.777
+  },
+  "PABH 1.5B seed10": {
+    "log": "bipace_1.5b_webshop_bisimhead_eps0.04_seed10_node1613826_20261106_025907.log",
+    "score": 0.904,
+    "success": 0.762
+  },
+  "PABH 1.5B seed2": {
+    "log": "bipace_1.5b_webshop_bisimhead_eps0.04_seed2_node1613826_20261105_162917.log",
+    "score": 0.871,
+    "success": 0.688
+  },
+  "PABH 1.5B seed3": {
+    "log": "bipace_1.5b_webshop_bisimhead_official_seed3_node1613826_20261011_070008.log",
+    "score": 0.881,
+    "success": 0.727
+  },
+  "PABH 1.5B seed4": {
+    "log": "bipace_1.5b_webshop_bisimhead_official_seed4_node1613826_20261012_044723.log",
+    "score": 0.856,
+    "success": 0.727
+  },
+  "PABH 1.5B seed5": {
+    "log": "bipace_1.5b_webshop_bisimhead_official_seed5_node1613826_20260920_173817.log",
+    "score": 0.868,
+    "success": 0.707
+  },
+  "PABH 1.5B seed7": {
+    "log": "bipace_1.5b_webshop_bisimhead_official_seed7_node1613826_20261011_070318.log",
+    "score": 0.876,
+    "success": 0.758
+  },
+  "PABH 7B seed0": {
+    "log": "bipace_7b_webshop_bisimhead_eps010_seed0_node1613826_20261031_203252.log",
+    "score": 0.876,
+    "success": 0.766
+  },
+  "PABH 7B seed1": {
+    "log": "bipace_7b_webshop_bisimhead_eps005_seed1_node1613826_20261106_031601.log",
+    "score": 0.889,
+    "success": 0.762
+  },
+  "PABH 7B seed2": {
+    "log": "bipace_7b_webshop_bisimhead_eps005_seed2_node1613826_20261107_152313.log",
+    "score": 0.878,
+    "success": 0.777
+  }
+}

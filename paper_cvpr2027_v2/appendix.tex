@@ -1,0 +1,268 @@
+% Appendix for PABH: implementation, diagnostics, per-seed results, and reproducibility.
+
+\section{Full Algorithm and Implementation Details}
+\label{app:algorithm}
+
+Algorithm~\ref{alg:pabh_full} summarizes the adopted pipeline. The projection used for the current advantage computation is produced before that step's head updates; updated weights affect subsequent steps. Actor parameters receive only the PPO gradient, while the head receives only the MICo gradient.
+
+\begin{algorithm}[h]
+\caption{PABH advantage computation and head update}
+\label{alg:pabh_full}
+\begin{algorithmic}[1]
+\Require rollouts grouped by prompt, extrinsic rewards, progress trackers
+\For{each PPO step}
+  \State extract $g_t$, serialize $g_{\mathrm{text}}$, and form $\tilde o_t=[g_{\mathrm{text}};o_t]$ only for the anchor channel
+  \State recompute late-layer $h_t=\mathrm{Norm}(f_\theta(\tilde o_t))$ at the last non-pad token with no actor gradient
+  \State $z_t\leftarrow\mathrm{Norm}(Wh_t)$ using the current head
+  \For{$k=1$ to $10$}
+    \State sample 256 on-policy pairs with valid next states; reject same-trajectory pairs with $|t_i-t_j|<3$
+    \For{$u=1$ to $3$}
+      \State update $W$ with $\mathcal L_{\mathrm{head}}$ from Eq.~\ref{eq:mico}
+      \State $\bar W\leftarrow\tau W+(1-\tau)\bar W$ \Comment{after every head-gradient update}
+    \EndFor
+  \EndFor
+  \State cluster $\{z_t\}$ within each prompt group using greedy cosine clustering
+  \State compute PACE $\Astep$ from extrinsic returns and $A=\Aepisode+\omega\Astep$
+  \State update the actor with the unchanged PPO objective
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+The head is a bias-free linear map $W\in\mathbb R^{256\times H}$ with orthogonal initialization and L2-normalized outputs. Its parameter count is $256H$: 393,216 for $H=1536$ (1.5B) and 917,504 for $H=3584$ (7B). The EMA target head is initialized as a copy of $W$, has \texttt{requires\_grad=False}, and is checkpointed together with the online head and its optimizer. Pair endpoints must have valid same-trajectory successors. Sampling uses a fixed local RNG, and successor targets are detached.
+
+The anchor forward pass is separate from rollout generation. It disables the language-model head, reads the selected late layer, and applies no gradient to the actor. Head optimization runs on the driver CPU; the same rollout batch supplies current and successor hidden states, process rewards, and extrinsic returns.
+
+\section{Progress Extraction and Anchor Serialization}
+\label{app:progress}
+
+Table~\ref{tab:progress_rules} gives the environment-specific progress contract. Progress text is prepended only to the metric anchor; the policy prompt retains its original history and observation. An empty progress history produces no text prefix.
+
+\begin{table*}[h]
+\centering
+\caption{Progress-event and process-reward specifications. Process rewards are consumed only by the MICo loss.}
+\label{tab:progress_rules}
+\scriptsize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{@{}p{1.65cm}p{4.95cm}p{4.65cm}p{4.35cm}@{}}
+\toprule
+Env. & Progress representation & Example & PRM $r^p$ \\
+\midrule
+ALFWorld & Ordered, deduplicated $(\mathrm{predicate},\mathrm{object})$ events: take, clean, cool, heat, put, toggle. Object IDs are retained; receptacles are discarded except that toggle uses the receptacle as its event object. Navigation, open/close, look, and inventory are excluded. &
+\texttt{[Progress] completed subgoals:\newline take(egg 3), heat(egg 3)} &
+$+1$ win; $+0.5$ per new progress event; $-0.1$ for ``Nothing happens.''; $0$ otherwise. \\
+\addlinespace
+WebShop & Search-action count, viewed-item events, and purchase outcome. Navigation clicks and item subpages are excluded from the set. &
+\texttt{[Progress] searches issued: 2;\newline items viewed: item A, item B} &
+$+1$ correct purchase; $-0.5$ wrong purchase; $+0.2$ per new item view; $-0.1$ invalid action; $0$ otherwise. \\
+\addlinespace
+ScienceWorld & Ordered, deduplicated events from ten template-parsed action types for anchor text. Official score increments are a separate PRM signal, not part of $g_{\mathrm{text}}$. &
+\texttt{[Completed subgoal events:\newline pickup(thermometer), pour(water)]} &
+$\mathbf 1[\mathrm{win}]+\max(\Delta\mathrm{score},0)/100$. The policy reward remains terminal. \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+For ALFWorld, the six anchored templates are:
+\texttt{pick up}, \texttt{clean}, \texttt{cool}, \texttt{heat}, \texttt{move}, and \texttt{turn on}. Only the first observation line is matched, preventing task instructions or history from creating false events. Navigation and container opening are intentionally excluded because they need not change task completion, although this is an approximation rather than a full MDP-state equivalence guarantee.
+
+Across environments, the progress text is an environment-specific event summary rather than a complete MDP-state reconstruction. It supplies deterministic task-relevant side information beyond the latest observation, but does not by itself certify bisimulation equivalence. Designing richer goal-conditioned serializers is a promising direction for future work.
+
+A representative anchor input is therefore:
+\begin{quote}\small
+\texttt{[Progress] completed subgoals: take(kettle 1)}\newline
+\texttt{You pick up the kettle 1 from the stoveburner 1.}
+\end{quote}
+The corresponding policy prompt contains only the usual task history and observation, not the bracketed progress prefix.
+
+\section{Hyperparameters and Evaluation Protocol}
+\label{app:hyperparams}
+
+\begin{table}[h]
+\centering
+\caption{Shared head-training settings. Values are taken from the adopted run scripts, not library defaults.}
+\label{tab:head_hparams}
+\small
+\begin{tabular}{@{}p{4.25cm}p{3.35cm}@{}}
+\toprule
+Setting & Adopted value \\
+\midrule
+Projection dimension / initialization & 256 / orthogonal \\
+Head learning rate & $10^{-4}$ \\
+EMA rate $\tau$ & 0.005, after every gradient update \\
+MICo discount $\gamma$ & 0.95 \\
+Pairs per round & 256, with replacement \\
+Rounds $\times$ inner updates & $10\times3=30$ per PPO step \\
+Same-trajectory minimum step distance & 3 \\
+Target handling & EMA successor encoding, detached \\
+Head optimizer / device & Adam / driver CPU \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table*}[h]
+\centering
+\caption{Environment- and scale-specific clustering and PACE configuration. BiPACE-Q and \method share the action key and estimator within each row. A single $\varepsilon$ is shared; two values denote BiPACE-Q/\method.}
+\label{tab:pace_config}
+\small
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}llcccllc@{}}
+\toprule
+Environment & Model & $\varepsilon$ (Q/\method) & Layer & Rollout group & Action key & PACE estimator & PPO steps \\
+\midrule
+ALFWorld & 1.5B & 0.05 & $-12$ & 8 & first 8 response tokens & counterfactual & 200 \\
+ALFWorld & 7B & 0.10 & $-8$ & 8 & \texttt{<action>} body & Q-style & 150 \\
+WebShop & 1.5B & 0.06/0.04 & $-12$ & 12 & \texttt{<action>} body & Q-style & 200 \\
+WebShop & 7B & 0.08/0.05 & $-8$ & 12 & \texttt{<action>} body & Q-style & 150 \\
+ScienceWorld & 1.5B & 0.10 & $-12$ & 8 & \texttt{<action>} body & Q-style & 200 \\
+ScienceWorld & 7B & 0.10 & $-8$ & 8 & \texttt{<action>} body & Q-style & 150 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+For WebShop 1.5B, \method's $\varepsilon=0.04$ was selected in an initial single-seed sweep; two additional runs were then completed to form the same matched three-seed pool used by GiGPO and BiPACE-Q. For WebShop 7B, \method's $\varepsilon=0.05$ was selected in an initial single-seed sweep before two additional runs were completed; the current BiPACE-Q row retains $\varepsilon=0.08$ while its 0.10 refresh remains in progress.
+
+All reproductions use NVIDIA H20 nodes, with four GPUs per run except the official two-GPU WebShop 1.5B protocol. The actor learning rate is $5\times10^{-7}$, the return discount is 0.95, the step-advantage weight is 1.0, and the invalid-action penalty is 0.1. Validation runs every ten PPO steps. ALFWorld uses 128 valid-seen episodes with temperature 0.4; ScienceWorld uses 64 episodes with greedy decoding.
+
+ALFWorld \emph{All} is the count-weighted success at each run's overall-peak checkpoint; per-task values are read at that same checkpoint rather than independently maximized. WebShop Score and Success are independently maximized within budget. ScienceWorld uses SFT initialization from 42,178 AgentTraj-L step samples. Post-budget checkpoints are excluded. We use logged peaks from all resume segments rather than \texttt{best\_checkpoint.txt}, which can omit peaks before a restart.
+
+\section{Full Per-Seed Results and Run Ledger}
+\label{app:per_seed}
+
+For seed pools larger than three, we report three runs from a matched pool shared across methods rather than selecting by outcome. Other completed runs remain in the experiment logs but are not used in these aggregates. When overall peaks tie, we use the earliest peak checkpoint for every per-task reading.
+
+\begin{table}[h]
+\centering
+\caption{ALFWorld per-seed overall peak success (\%). Slash-separated values show individual runs in each reported pool.}
+\label{tab:alf_seeds}
+\scriptsize
+\setlength{\tabcolsep}{2.0pt}
+\begin{tabular}{@{}llp{4.0cm}l@{}}
+\toprule
+Model & Method & Per-seed peak values & Mean$\pm$std \\
+\midrule
+1.5B & GRPO & Published aggregate (not from our ledger) & 75.2$\pm$3.8 \\
+1.5B & GiGPO & 83.6 / 90.6 / 91.4 & 88.5$\pm$4.3 (3) \\
+1.5B & BiPACE-Q & 90.6 / 91.4 / 96.1 (first-$n$ + counterfactual) & 92.7$\pm$3.0 (3) \\
+1.5B & \method & 93.0 / 96.1 / 96.1 & 95.1$\pm$1.8 (3) \\
+\midrule
+7B & GRPO & Published aggregate (not from our ledger) & 77.6$\pm$5.2 \\
+7B & GiGPO & 89.8 / 93.0 / 89.8 & 90.9$\pm$1.8 (3) \\
+7B & BiPACE-Q & 92.2 / 95.3 / 94.5 & 94.0$\pm$1.6 (3) \\
+7B & \method & 95.3 / 95.3 & 95.3$\pm$0.0 (2) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table*}[h]
+\centering
+\caption{WebShop per-seed Score and Success (\%). Each metric is independently maximized within budget, so their peak steps need not coincide.}
+\label{tab:webshop_seeds}
+\scriptsize
+\setlength{\tabcolsep}{3.0pt}
+\begin{tabular}{@{}llp{4.4cm}p{4.0cm}cc@{}}
+\toprule
+Model & Method & Per-seed Score & Per-seed Success & Score mean & Success mean \\
+\midrule
+1.5B & GRPO & \multicolumn{2}{l}{Published aggregate (not from our ledger)} & 75.8$\pm$3.5 & 56.8$\pm$3.8 \\
+1.5B & GiGPO & 84.9 / 87.3 / 86.8 & 69.9 / 75.0 / 72.3 & 86.3$\pm$1.3 & 72.4$\pm$2.6 \\
+1.5B & BiPACE-Q & 84.0 / 86.8 / 84.7 & 70.3 / 71.1 / 68.0 & 85.2$\pm$1.5 & 69.8$\pm$1.6 \\
+1.5B & \method & 88.2 / 87.1 / 90.4 ($\varepsilon{=}0.04$) & 77.7 / 68.8 / 76.2 & 88.6$\pm$1.7 & 74.2$\pm$4.8 \\
+\midrule
+7B & GRPO & \multicolumn{2}{l}{Published aggregate (not from our ledger)} & 79.3$\pm$2.8 & 66.1$\pm$3.7 \\
+7B & GiGPO & 85.9 / 85.2 / 87.4 & 75.0 / 73.8 / 77.7 & 86.2$\pm$1.1 & 75.5$\pm$2.0 \\
+7B & BiPACE-Q & 85.7 / 87.8 / 87.6 & 72.7 / 73.8 / 72.7 & 87.0$\pm$1.2 & 73.1$\pm$0.6 \\
+7B & \method & 87.6 / 88.9 / 87.8 ($\varepsilon{=}0.05$) & 76.6 / 76.2 / 77.7 & 88.1$\pm$0.7 & 76.8$\pm$0.8 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table}[h]
+\centering
+\caption{ScienceWorld per-seed peak success (\%).}
+\label{tab:sw_seeds}
+\scriptsize
+\setlength{\tabcolsep}{1.8pt}
+\begin{tabular}{@{}llp{3.25cm}l@{}}
+\toprule
+Model & Method & Per-seed peak values & Mean$\pm$std \\
+\midrule
+1.5B & GRPO & \TBD{} (third run running) / 85.9 / 90.6 & \TBD{} (2/3 complete) \\
+1.5B & GiGPO & 95.3$^{*}$ / 90.6 / 89.1 & 91.7$\pm$3.3 (3) \\
+1.5B & BiPACE-Q & 87.5 / 85.9 / 89.1 & 87.5$\pm$1.6 (3) \\
+1.5B & \method & 90.6 / 87.5 / 96.9$^{\dagger}$ & 91.7$\pm$4.8 (3) \\
+\midrule
+7B & GRPO & 92.2 / 84.4 / 89.1 & 88.6$\pm$3.9 (3) \\
+7B & GiGPO & 93.8 / 89.1 / 89.1 & 90.7$\pm$2.7 (3) \\
+7B & BiPACE-Q & 89.1 / 89.1 / 84.4 & 87.5$\pm$2.7 (3) \\
+7B & \method & 89.1 / 90.6 / 84.4 & 88.0$\pm$3.3 (3) \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize $^{*}$Isolated point; nearby re-evaluation gives 90.6. $^{\dagger}$Isolated point with neighboring values 82.8/81.2; replacing it by the sustained 87.5 level gives 88.5$\pm$1.8. BiPACE-Q 1.5B uses the registered rollback-resume curve rather than maxima from discarded pre-rollback segments.
+\end{flushleft}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Status of remaining reproduction cells. Intermediate peaks are not promoted to final results.}
+\label{tab:run_status}
+\scriptsize
+\begin{tabular}{@{}p{4.6cm}p{2.6cm}@{}}
+\toprule
+Pending item & Current status \\
+\midrule
+ScienceWorld 1.5B GRPO third run & Running; 2/3 complete \\
+ALFWorld 7B \method seed refresh & In progress; current 2-seed row retained \\
+WebShop 7B BiPACE-Q $\varepsilon{=}0.10$ refresh & In progress; current 0.08 row retained \\
+ScienceWorld frozen-head control & Incomplete; correct $g_{\mathrm{text}}$ control remains \TBD \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Purity and Coverage Diagnostics}
+\label{app:purity}
+
+The retrospective analysis reconstructs exact-observation groups within each prompt group and recomputes $g_{\mathrm{set}}$ using the same progress tracker as training. Let $C$ be a multi-member exact-observation cluster. We define
+\begin{equation}
+\mathrm{conf\_clus}=
+\frac{\#\{C:\exists i,j\in C,\ g_i\neq g_j\}}
+{\#\{C:|C|>1\}},
+\end{equation}
+\begin{equation}
+\mathrm{conf\_pair}=
+\frac{\sum_C\#\{\{i,j\}\subset C:g_i\neq g_j\}}
+{\sum_C\binom{|C|}{2}}.
+\end{equation}
+The first is a cluster-level contamination rate; the second measures the prevalence of progress-inconsistent comparisons. Exact-match singleton rate is the fraction of one-record groups. Purity is used qualitatively as the complement of contamination, not as a new advantage estimator.
+
+The 15 runs comprise eight 1.5B runs (raw hidden and several head variants) and seven 7B runs (raw anchor, $g_{\mathrm{text}}$ mid-arm, and PRM-head variants). One additional early-death run is excluded. The analysis diagnoses observation geometry across training arms; it is not an evaluation of adopted \method alone.
+
+These statistics are descriptive diagnostics of observation geometry, not quality guarantees or causal estimates of task success. A direct comparison of raw-$h$ and trained-$z$ clusters on identical rollout records, as well as any analysis relating purity to success, remains a separate question not addressed by this retrospective figure.
+
+\section{Head Controls}
+\label{app:controls}
+
+\begin{table}[h]
+\centering
+\caption{Controls isolating head training on ScienceWorld 1.5B. Frozen and trained arms must share the same $g_{\mathrm{text}}$ input; raw-anchor BiPACE-Q is a reference.}
+\label{tab:head_controls}
+\small
+\begin{tabular}{@{}lc@{}}
+\toprule
+Metric variant & Peak val (\%) \\
+\midrule
+No head (BiPACE-Q) & 87.5$\pm$1.6 (3 seeds) \\
+Frozen orthogonal head (MICo off) & \TBD \\
+Trained head (adopted) & 91.7$\pm$4.8 (3 seeds)$^{\dagger}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The frozen control must use the correct $g_{\mathrm{text}}$ generation; older runs without this input do not provide a clean comparison.
+
+\section{Reproducibility and Cost Checks}
+\label{app:repro}
+
+Our implementation checks the following invariants: (i) $g_{\mathrm{text}}$ never enters the policy prompt; (ii) process rewards have no consumer in the PPO return path; (iii) the actor receives no MICo gradient; (iv) PACE consumes extrinsic discounted returns; and (v) online head, EMA target, and optimizer are restored together on resume. These checks target failure modes in which an apparent baseline silently receives progress input or a resumed run silently resets its head.
+
+The only trainable additional parameters are the $256H$ projection weights. \method requires no additional environment rollouts or learned critic. It does require an anchor forward pass, pair sampling, 30 CPU head updates per PPO step, and clustering; the measured end-to-end increment is below 2\% of training-step time in our runs. Prompt-only and ALFWorld/WebShop GRPO table rows are published references. ScienceWorld GRPO and all GiGPO, BiPACE-Q, and \method values, as well as every \method delta, come from our same-pipeline reproductions.

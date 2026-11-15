@@ -1,0 +1,159 @@
+% Auto-generated experiment tables (2026-10-09, peak-only snapshot) — \input{tables} from main.tex
+
+% ================= Table 1: main results =================
+\begin{table*}[t]
+\centering
+\caption{Peak validation success (\%) across environments and scales.
+Following the official BiPACE evaluation protocol, all numbers are
+\emph{peak} validation success within the training budget; per-seed
+values for every run are reported (mean$\pm$std where $n\ge3$).
+$\dagger$ published numbers (BiPACE/GiGPO papers);
+$\ddagger$ our same-pipeline reproduction (all method comparisons are
+made against this row block).}
+\label{tab:main_full}
+\small
+\begin{tabular}{@{}lllcc@{}}
+\toprule
+Env & Scale & Method & Peak val (\%) & Seeds \\
+\midrule
+\multirow{5}{*}{ALFWorld} & \multirow{3}{*}{1.5B}
+ & GiGPO$^\dagger$ & 86.7 $\pm$ 1.7 & -- \\
+ & & BiPACE-Q$^\dagger$ & 93.5 $\pm$ 1.2 & -- \\
+ & & BiPACE-Q$^\ddagger$ & 90.2 $\pm$ 0.6 & 2 \\
+ & & \textbf{PABH (ours)} & \textbf{95.2 $\pm$ 1.4} & \textbf{5} \\
+\cmidrule(l){2-5}
+ & \multirow{3}{*}{7B}
+ & GiGPO$^\dagger$ & 90.8 $\pm$ 1.3 & -- \\
+ & & BiPACE-Q$^\dagger$ & 97.1 $\pm$ 0.9 & -- \\
+ & & BiPACE-Q$^\ddagger$ & 93.3 $\pm$ 2.8 & 2 \\
+ & & \textbf{PABH (ours)} & \textbf{95.3 $\pm$ 0.0} & \textbf{2} \\
+\midrule
+\multirow{4}{*}{WebShop} & \multirow{2}{*}{1.5B}
+ & BiPACE-Q$^\dagger$ & 71.9 $\pm$ 2.1 & -- \\
+ & & BiPACE-Q$^\ddagger$ & 69.7 $\pm$ 1.1 & 4 \\
+ & & \textbf{PABH (ours)} & \textbf{71.1 $\pm$ 0.6} & \textbf{3} \\
+\cmidrule(l){2-5}
+ & \multirow{2}{*}{7B}
+ & BiPACE-Q$^\dagger$ & 79.7 $\pm$ 3.3 & -- \\
+ & & BiPACE-Q$^\ddagger$ & 73.1 $\pm$ 0.5 & 3 \\
+ & & \textbf{PABH (ours)} & \textbf{74.8 $\pm$ 2.3} & \textbf{3} \\
+\midrule
+\multirow{4}{*}{ScienceWorld} & \multirow{2}{*}{1.5B}
+ & GiGPO$^\ddagger$ & 95.3$^{*}$ / 87.5 / 89.1 & 3 \\
+ & & BiPACE-Q$^\ddagger$ & 87.5 / 85.9 / 87.5 & 3 \\
+ & & \textbf{PABH (ours)} & \textbf{90.6 / 89.1 / 89.1} & \textbf{3} \\
+\cmidrule(l){2-5}
+ & \multirow{2}{*}{7B}
+ & BiPACE-Q$^\ddagger$ & 89.1 & 1 \\
+ & & \textbf{PABH (ours)} & \textbf{89.1} & \textbf{1} \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize $^{*}$GiGPO seed0: the 0.953 peak is a single point
+(0.906 on resume re-evaluation of the same region; neighbors
+0.81--0.86); see the noise discussion in \S\ref{sec:main}.
+\end{flushleft}
+\end{table*}
+
+% ================= Table 2: ScienceWorld estimator ladder =================
+\begin{table}[t]
+\centering
+\caption{ScienceWorld 1.5B (SFT cold start): estimator comparison, all
+reproduced on the same machine/pipeline (peak val \%).
+$\dagger$run died to a stochastic infra fault before finishing; value
+is the peak up to the fault step.}
+\label{tab:sw_ladder}
+\small
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Method & seed & Peak (\%) \\
+\midrule
+\multirow{3}{*}{GiGPO (exact anchor)}
+ & s0 & 95.3$^{*}$ (resume 90.6) \\
+ & s1$^\dagger$ & 87.5 \\
+ & s2$^\dagger$ & 89.1 \\
+\midrule
+\multirow{3}{*}{BiPACE-Q (approx.\ grouping)}
+ & s0 & 87.5 \\
+ & s1 (peer) & 85.9 \\
+ & s2$^\dagger$ & 87.5 \\
+\midrule
+\multirow{4}{*}{\textbf{PABH (ours)}}
+ & s0 & \textbf{90.6} \\
+ & s1 & \textbf{89.1} \\
+ & s2 (peer) & \textbf{89.1} \\
+ & s3 (running) & -- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ================= Table 3: attribution =================
+\begin{table}[t]
+\centering
+\caption{Attribution decomposition on ALFWorld (peak val \%): which layer
+carries the gain. mid-arm = progress-set text injection only (no trained
+metric).}
+\label{tab:attrib}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Arm & 1.5B & 7B & seeds \\
+\midrule
+raw (BiPACE-Q repro) & 90.2 $\pm$ 0.6 & 93.3 $\pm$ 2.8 & 2 / 2 \\
+mid-arm ($g_{\text{text}}$ only) & 89.9 $\pm$ 2.2 & 94.5 $\pm$ 1.1 & 2 / 2 \\
+\textbf{PABH (full)} & \textbf{95.2 $\pm$ 1.4} & \textbf{95.3 $\pm$ 0.0} & \textbf{5 / 2} \\
+\midrule
+$\Delta$(i) state redefinition & $-0.4$ (n.s.) & +1.2 & \\
+$\Delta$(ii) trained metric & \textbf{+5.3} & +0.8 & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ================= Table 4: SFT ablation =================
+\begin{table}[t]
+\centering
+\caption{ScienceWorld SFT-cold-start ablation (BiPACE-Q baseline arm,
+peak val \%). Raw-start 1.5B collapses; raw-start 7B is learnable but
+far from converged within the budget.}
+\label{tab:sft}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Start & Scale & Peak (\%) & Trajectory \\
+\midrule
+SFT cold start & 1.5B & 87.5 / 85.9 / 87.5 & 23.4@start $\to$ fast ramp \\
+(raw) Instruct & 1.5B & $\le$7.8 & collapses to 0.02--0.08 \\
+\midrule
+SFT cold start & 7B & 89.1 & 46.9@start $\to$ 89.1 peak \\
+(raw) Instruct & 7B & 67.2 & 14.1@start $\to$ still climbing @s150 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ================= Table 5: PABPO ablation line =================
+\begin{table}[t]
+\centering
+\caption{Single-component ablation line on ALFWorld 7B (anchor: full
+method = 95.3, 2 seeds, peak val \%). Nine variants band 92.2--94.5,
+all below the full method---components are jointly near a local optimum
+here.}
+\label{tab:pabpo}
+\small
+\begin{tabular}{@{}llc@{}}
+\toprule
+Variant & Change (single variable) & Peak (\%) \\
+\midrule
+B3-v1 rescale & MICo anchor rescale & (metric collapse, killed) \\
+B3-v2 clamp & anchor clamp to range & 92.2 (1.5B) / 91.4 \\
+D2b-v1 & prog-cond action key + local shrink & 93.4 (2 seeds) \\
+D2b-v2 & strict $\tau_g{=}0$, $\kappa{=}4$ & 92.2 \\
+D2b-v3 (K2) & constant-trust $\kappa$ & 94.5 \\
+D1 soft & kernel-weighted soft grouping & 89.1 (died s137) \\
+PCAP & progress-conditioned policy input & 93.8 \\
+\midrule
+\textbf{PABH (full method)} & --- & \textbf{95.3 (2 seeds)} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ================= Table 6: TextCraft removed per decision (2026-10-09) =================

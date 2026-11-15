@@ -1,0 +1,99 @@
+% CVPR'27 tables — published prompt-only/GRPO references + same-pipeline GiGPO/BiPACE-Q/PABH reproductions.
+
+\begin{table*}[t]
+\centering
+\caption{Prompt-only references, published GRPO results, and same-pipeline GiGPO/BiPACE-Q/\method results on ALFWorld and WebShop. Prompt-only and GRPO rows reproduce BiPACE~\cite{bipace} and the results it cites, and are used for context rather than controlled \method deltas. GiGPO, BiPACE-Q, and \method rows are our reproductions. ALFWorld \emph{All} is count-weighted overall success. Per-task cells for our runs report complete readings at each run's overall-peak checkpoint; published GRPO cells retain their original protocol. WebShop Score and Success are independently maximized within budget. Parentheses show completed seeds; \TBD{} denotes an unavailable or unresolved reproduction.}
+\label{tab:main}
+\scriptsize
+\setlength{\tabcolsep}{2.55pt}
+\begin{tabular}{@{}llccccccccc@{}}
+\toprule
+& & \multicolumn{7}{c}{ALFWorld (valid-seen)} & \multicolumn{2}{c}{WebShop} \\
+\cmidrule(lr){3-9}\cmidrule(l){10-11}
+Model & Method & Pick & Look & Clean & Heat & Cool & Pick2 & All & Score & Succ. \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Published prompt-only references (no fine-tuning; contextual comparison only).}} \\
+\multicolumn{11}{@{}l@{}}{\textit{Closed-source models.}} \\
+-- & GPT-4o & 75.3 & 60.8 & 31.2 & 56.7 & 21.6 & 49.8 & 48.0 & 31.8 & 23.7 \\
+-- & Gemini-2.5-Pro & 92.8 & 63.3 & 62.1 & 69.0 & 26.6 & 58.7 & 60.3 & 42.5 & 35.9 \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Qwen2.5-1.5B-Instruct.}} \\
+1.5B & Qwen2.5 & 5.9 & 5.5 & 3.3 & 9.7 & 4.2 & 0.0 & 4.1 & 23.1 & 5.2 \\
+1.5B & ReAct & 17.4 & 20.5 & 15.7 & 6.2 & 7.7 & 2.0 & 12.8 & 40.1 & 11.3 \\
+1.5B & Reflexion & 35.3 & 22.2 & 21.7 & 13.6 & 19.4 & 3.7 & 21.8 & 55.8 & 21.9 \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Published GRPO reference (training pipeline differs; contextual comparison only).}} \\
+1.5B & GRPO & 85.3$\pm$1.5 & 53.7$\pm$8.0 & 84.5$\pm$6.8 & 78.2$\pm$7.9 & 59.7$\pm$5.0 & 53.5$\pm$5.6 & 75.2$\pm$3.8 & 75.8$\pm$3.5 & 56.8$\pm$3.8 \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Qwen2.5-7B-Instruct.}} \\
+7B & Qwen2.5 & 33.4 & 21.6 & 19.3 & 6.9 & 2.8 & 3.2 & 14.8 & 26.4 & 7.8 \\
+7B & ReAct & 48.5 & 35.4 & 34.3 & 13.2 & 18.2 & 17.6 & 31.2 & 46.2 & 19.5 \\
+7B & Reflexion & 62.0 & 41.6 & 44.9 & 30.9 & 36.3 & 23.8 & 42.7 & 58.1 & 28.8 \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Published GRPO reference (training pipeline differs; contextual comparison only).}} \\
+7B & GRPO & 90.8$\pm$5.1 & 66.1$\pm$6.7 & 89.3$\pm$5.4 & 74.7$\pm$6.9 & 72.5$\pm$5.4 & 64.7$\pm$7.3 & 77.6$\pm$5.2 & 79.3$\pm$2.8 & 66.1$\pm$3.7 \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Same-pipeline RL training (GiGPO, BiPACE-Q, and \method; controlled comparisons use this block only).}} \\
+\multicolumn{11}{@{}l@{}}{\textit{Qwen2.5-1.5B-Instruct.}} \\
+1.5B & GiGPO
+& \textbf{99.1$\pm$1.6} & 71.5$\pm$18.8 & 88.6$\pm$3.0 & \textbf{97.8$\pm$3.9} & 79.9$\pm$4.2 & 86.4$\pm$9.1
+& 88.5$\pm$4.3 (3) & 86.3$\pm$1.3 (3) & 72.4$\pm$2.6 (3) \\
+1.5B & BiPACE-Q
+& 96.0$\pm$3.9 & 83.1$\pm$11.4 & \textbf{95.1$\pm$5.4} & 96.3$\pm$3.4 & 89.7$\pm$3.9 & \textbf{94.4$\pm$0.5}
+& 92.7$\pm$3.0 (3) & 85.2$\pm$1.5 (3) & 69.8$\pm$1.6 (3) \\
+1.5B & \method
+& 96.6$\pm$1.4 & \textbf{88.4$\pm$11.1} & 93.6$\pm$2.3 & 95.0$\pm$8.7 & \textbf{100.0$\pm$0.0} & 92.1$\pm$3.4
+& \textbf{95.1$\pm$1.8 (3)} & \textbf{88.6$\pm$1.7 (3)} & \textbf{74.2$\pm$4.8 (3)} \\
+\midrule
+\multicolumn{11}{@{}l@{}}{\textit{Qwen2.5-7B-Instruct.}} \\
+7B & GiGPO
+& 94.9$\pm$6.3 & 84.5$\pm$8.4 & \textbf{98.1$\pm$3.3} & 92.8$\pm$7.7 & 80.9$\pm$2.8 & 87.6$\pm$3.7
+& 90.9$\pm$1.8 (3) & 86.2$\pm$1.1 (3) & 75.5$\pm$2.0 (3) \\
+7B & BiPACE-Q
+& \textbf{100.0$\pm$0.0} & 82.4$\pm$15.3 & 94.2$\pm$1.4 & \textbf{100.0$\pm$0.0} & 87.8$\pm$12.5 & \textbf{94.7$\pm$4.7}
+& 94.0$\pm$1.6 (3) & 87.0$\pm$1.2 (3) & 73.1$\pm$0.6 (3) \\
+7B & \method
+& 98.2$\pm$2.5 & \textbf{92.8$\pm$10.1} & 96.7$\pm$4.7 & \textbf{100.0$\pm$0.0} & \textbf{91.3$\pm$12.3} & 93.0$\pm$5.2
+& \textbf{95.3$\pm$0.0 (2)} & \textbf{88.1$\pm$0.7 (3)} & \textbf{76.8$\pm$0.8 (3)} \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize Prompt-only and GRPO values and standard deviations are preserved from the cited sources. For our GiGPO, BiPACE-Q, and \method rows, means use sample standard deviations when at least two seeds are available, and post-budget checkpoints are excluded. ALFWorld 1.5B BiPACE-Q uses three completed first-$n$ + counterfactual seeds, with all six task readings at each run's overall-peak checkpoint. ALFWorld 7B BiPACE-Q includes three completed seeds and merges all resume segments when selecting the overall peak.
+\end{flushleft}
+\end{table*}
+
+\begin{table}[t]
+\centering
+\caption{ScienceWorld same-pipeline results (SFT cold start, peak validation success \%). All RL comparisons use identical code, prompts, budgets, and evaluation; no published-result rows are introduced.}
+\label{tab:scienceworld}
+\scriptsize
+\setlength{\tabcolsep}{2.8pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Model & GRPO & GiGPO & BiPACE-Q & \method \\
+\midrule
+1.5B & \TBD & 91.7$\pm$3.3 (3)$^{*}$ & 87.5$\pm$1.6 (3) & 91.7$\pm$4.8 (3)$^{\dagger}$ \\
+7B & 88.6$\pm$3.9 (3) & \textbf{90.7$\pm$2.7 (3)} & 87.5$\pm$2.7 (3) & 88.0$\pm$3.3 (3) \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize $^{*}$GiGPO includes one isolated 95.3 point; nearby re-evaluation gives 90.6, with a sustained-level sensitivity of 90.1$\pm$0.9. $^{\dagger}$One \method run includes one isolated 96.9 point (neighboring points 82.8/81.2); replacing it by the sustained 87.5 level gives 88.5$\pm$1.8. The table consistently uses logged peaks within budget. Larger candidate pools use the matched run pools documented in Appendix~\ref{app:per_seed}, not outcome-based selection.
+\end{flushleft}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Progress-event and trained-head attribution on ALFWorld. ``$g_{\mathrm{text}}$ only'' uses the unprojected hidden state of the progress-augmented anchor without metric training. Parentheses show seed counts; these are component-attribution results rather than paired significance tests.}
+\label{tab:attrib}
+\small
+\setlength{\tabcolsep}{5.0pt}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Variant & 1.5B & 7B \\
+\midrule
+Raw (BiPACE-Q) & 92.7$\pm$3.0 (3) & 94.0$\pm$1.6 (3) \\
+$g_{\mathrm{text}}$ only & 89.1 (1) & 94.5$\pm$1.1 (2) \\
+$g_{\mathrm{text}}$ + \textbf{trained head} & \textbf{95.1$\pm$1.8 (3)} & \textbf{95.3$\pm$0.0 (2)} \\
+\bottomrule
+\end{tabular}
+\end{table}

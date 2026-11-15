@@ -1,0 +1,16 @@
+BiPACE
+Copyright 2026 BiPACE contributors.
+
+BiPACE is developed on top of verl-agent and veRL. We gratefully
+acknowledge the verl-agent authors and contributors for the multi-turn
+agent training infrastructure and GiGPO foundation used by this project.
+
+This project includes software developed by the verl project:
+Copyright 2023-2024 Bytedance Ltd. and/or its affiliates.
+
+It also includes software developed by the verl-agent (GiGPO) project:
+Copyright 2025 Nanyang Technological University (NTU), Singapore and
+the verl-agent (GiGPO) team.
+
+BiPACE-specific modifications and contributions:
+Copyright 2026 BiPACE contributors.

@@ -1,0 +1,115 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{8}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter does
+%%% not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+\makeatletter
+\@ifundefined{NAT@parse@date}{}{\let\NAT@parse@date@orig\NAT@parse@date}
+\@ifundefined{NAT@parse@date}{}{\def\NAT@parse@date#1#2#3#4#5#6@@{\NAT@parse@date@orig#1#2#3#4#5#6@@\def\NAT@tempyear{0000}\def\NAT@tempexlab{{?}}\ifx\NAT@year\NAT@tempyear\ifx\NAT@exlab\NAT@tempexlab\def\NAT@date{[n.\,d.]}\else\edef\NAT@date{[n.\,d.]\NAT@exlab}\fi\fi}}
+\makeatother
+
+\bibitem[Ahmadian et~al\mbox{.}(2024)]%
+        {rloo}
+\bibfield{author}{\bibinfo{person}{Arash Ahmadian}, \bibinfo{person}{Chris Cremer}, \bibinfo{person}{Matthias Gall{\'e}}, \bibinfo{person}{Marzieh Fadaee}, \bibinfo{person}{Julia Kreutzer}, \bibinfo{person}{Olivier Pietquin}, \bibinfo{person}{Ahmet {\"U}st{\"u}n}, {and} \bibinfo{person}{Sara Hooker}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \bibinfo{title}{Back to Basics: Revisiting {REINFORCE} Style Optimization for Learning from Human Feedback in {LLMs}}.
+\newblock \bibinfo{howpublished}{\url{https://arxiv.org/abs/2402.14740}}.
+\newblock
+\newblock
+\shownote{arXiv:2402.14740}.
+
+
+\bibitem[{BiPACE Team}(2026)]%
+        {bipace}
+\bibfield{author}{\bibinfo{person}{{BiPACE Team}}.} \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{BiPACE: Bisimulation-based Policy Advantage Credit Estimation for Multi-Step LLM Agents}.
+\newblock \bibinfo{howpublished}{\url{https://arxiv.org/abs/2606.25556}}.
+\newblock
+\newblock
+\shownote{arXiv:2606.25556}.
+
+
+\bibitem[Castro et~al\mbox{.}(2021)]%
+        {micobisim}
+\bibfield{author}{\bibinfo{person}{Pablo~Samuel Castro}, \bibinfo{person}{Tyler Kastner}, \bibinfo{person}{Prakash Panangaden}, {and} \bibinfo{person}{Mark Rowland}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{MICo}: Improved representations via sampling-based state similarity metrics}. In \bibinfo{booktitle}{\emph{Advances in Neural Information Processing Systems (NeurIPS)}}.
+\newblock
+
+
+\bibitem[Feng et~al\mbox{.}(2025)]%
+        {gigpo}
+\bibfield{author}{\bibinfo{person}{Lang Feng}, \bibinfo{person}{Zhenghai He}, \bibinfo{person}{Zhiyuan Liu}, {et~al\mbox{.}}} \bibinfo{year}{2025}\natexlab{}.
+\newblock \bibinfo{title}{{GiGPO}: Group-in-Group Policy Optimization for LLM Agent Training}.
+\newblock \bibinfo{howpublished}{\url{https://arxiv.org/abs/2505.10978}}.
+\newblock
+\newblock
+\shownote{arXiv:2505.10978}.
+
+
+\bibitem[Ferns et~al\mbox{.}(2011)]%
+        {ferns2011bisimulation}
+\bibfield{author}{\bibinfo{person}{Norm Ferns}, \bibinfo{person}{Prakash Panangaden}, {and} \bibinfo{person}{Doina Precup}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Metrics for Finite Markov Decision Processes}.
+\newblock \bibinfo{journal}{\emph{CoRR}}  \bibinfo{volume}{abs/1107.3514} (\bibinfo{year}{2011}).
+\newblock
+
+
+\bibitem[Lightman et~al\mbox{.}(2023)]%
+        {prm}
+\bibfield{author}{\bibinfo{person}{Hunter Lightman}, \bibinfo{person}{Vineet Kosaraju}, \bibinfo{person}{Yuri Burda}, \bibinfo{person}{Harri Edwards}, \bibinfo{person}{Bowen Baker}, \bibinfo{person}{Teddy Lee}, \bibinfo{person}{Jan Leike}, \bibinfo{person}{John Schulman}, \bibinfo{person}{Ilya Sutskever}, {and} \bibinfo{person}{Karl Cobbe}.} \bibinfo{year}{2023}\natexlab{}.
+\newblock \bibinfo{title}{Let's Verify Step by Step}.
+\newblock \bibinfo{howpublished}{\url{https://arxiv.org/abs/2305.20050}}.
+\newblock
+\newblock
+\shownote{arXiv:2305.20050}.
+
+
+\bibitem[Shao et~al\mbox{.}(2024)]%
+        {grpo}
+\bibfield{author}{\bibinfo{person}{Zhihong Shao}, \bibinfo{person}{Peiyi Wang}, \bibinfo{person}{Qihao Zhu}, \bibinfo{person}{Runxin Xu}, \bibinfo{person}{Junxiao Song}, \bibinfo{person}{Xiao Bi}, \bibinfo{person}{Haowei Zhang}, \bibinfo{person}{Mingchuan Zhang}, \bibinfo{person}{Y.~K. Li}, \bibinfo{person}{Y. Wu}, {and} \bibinfo{person}{Daya Guo}.} \bibinfo{year}{2024}\natexlab{}.
+\newblock \bibinfo{title}{{DeepSeekMath}: Pushing the limits of mathematical reasoning in open language models}.
+\newblock \bibinfo{howpublished}{\url{https://arxiv.org/abs/2402.03300}}.
+\newblock
+\newblock
+\shownote{arXiv:2402.03300}.
+
+
+\bibitem[Zhang et~al\mbox{.}(2021)]%
+        {dbc}
+\bibfield{author}{\bibinfo{person}{Amy Zhang}, \bibinfo{person}{Rowan McAllister}, \bibinfo{person}{Roberto Calandra}, \bibinfo{person}{Yarin Gal}, {and} \bibinfo{person}{Sergey Levine}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Learning Invariant Representations for Reinforcement Learning without Reconstruction}. In \bibinfo{booktitle}{\emph{International Conference on Learning Representations (ICLR)}}.
+\newblock
+
+
+\end{thebibliography}
