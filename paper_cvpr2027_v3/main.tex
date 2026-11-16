@@ -27,6 +27,7 @@
 \def\confYear{2027}
 
 \begin{document}
+\raggedbottom
 \title{Learning Progress-Aware State Metrics for Step-Level Credit\\Assignment in LLM Agents}
 \author{Anonymous CVPR submission}
 \maketitle
@@ -140,7 +141,7 @@ The learned $z_t$ replaces raw $h_t$ in BiGPO's prompt-group-local greedy cosine
 
 Algorithm~\ref{alg:pabh_full} summarizes the complete pipeline. The projection used for the current advantage computation is produced before that step's head updates; updated weights affect subsequent steps. Actor parameters receive only the PPO gradient, while the head receives only the MICo gradient. Thus, our contribution is a drop-in state metric, not a second critic, a new rollout scheme, or a modified PPO surrogate.
 
-\begin{algorithm}[H]
+\begin{algorithm*}[!t]
 \caption{PABH training and advantage computation}
 \label{alg:pabh_full}
 \begin{algorithmic}[1]
@@ -161,7 +162,7 @@ Algorithm~\ref{alg:pabh_full} summarizes the complete pipeline. The projection u
   \State update the actor with the unchanged PPO objective
 \EndFor
 \end{algorithmic}
-\end{algorithm}
+\end{algorithm*}
 
 \section{Experiments}
 \label{sec:exp}

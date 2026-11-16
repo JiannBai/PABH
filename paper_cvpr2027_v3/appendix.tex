@@ -12,7 +12,7 @@ The anchor forward pass is separate from rollout generation. It disables the lan
 
 Table~\ref{tab:progress_rules} gives the environment-specific progress contract. Progress text is prepended only to the metric anchor; the policy prompt retains its original history and observation. An empty progress history produces no text prefix.
 
-\begin{table}[h]
+\begin{table}[!b]
 \centering
 \caption{Progress-event and process-reward specifications. Process rewards are consumed only by the MICo loss.}
 \label{tab:progress_rules}
